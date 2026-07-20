@@ -167,3 +167,6 @@ function ScreenController(){
 }
 
 ScreenController();
+const reset = document.querySelector(".reset-btn");
+
+reset.addEventListener("click", ScreenController);

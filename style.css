@@ -1,16 +1,14 @@
 body{
+  background-color: rgb(10, 112, 128);
+}
+.container{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: center; */
     height: 100vh;
     align-items: center;
+    padding: 36px;
 }
-h1{
-    text-align: center;
-    margin-bottom: 20%;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
 .board {
   display: grid;
   height: 500px;
@@ -35,3 +33,45 @@ h1{
   font-weight: bold;
   color: rgb(88, 127, 88);
 }
+
+/* From Uiverse.io by arthur_6104 */ 
+.box-button {
+  cursor: pointer;
+  border: 4px solid black;
+  background-color: gray;
+  padding-bottom: 10px;
+  transition: 0.1s ease-in-out;
+  user-select: none;
+  margin: 36px;
+}
+
+.button {
+  background-color: #dddddd;
+  border: 4px solid #fff;
+  padding: 3px 8px;
+}
+
+.button span {
+  font-size: 1.2em;
+  letter-spacing: 1px;
+}
+
+.box-button:active {
+  padding: 0;
+  margin-bottom: 10px;
+  transform: translateY(10px);
+}
+
+h1{
+  font-family: "Jersey 15", sans-serif;
+  color: whitesmoke;
+  font-size: 90px;
+  text-align: center;
+  margin-bottom: 5%;
+}
+.turn{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: rgb(251, 251, 26);
+  font-weight: 600;
+}
+
