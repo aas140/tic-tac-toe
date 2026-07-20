@@ -1,4 +1,4 @@
-const Gameboard = (() => {
+const Gameboard = () => {
     // creates the board, place the user marker at position, print the board
 
     let board = [];
@@ -23,7 +23,7 @@ const Gameboard = (() => {
                
     }
     return {getBoard, setMarker, printBoard};
-});
+};
 
 // each cell of the game grid has value Cell()
 function Cell(){
@@ -53,6 +53,7 @@ function GameController(p1 =  "Player One", p2 = "Player Two"){
         }
     ];
     let gameOver = false;
+    let gameStatus = "";
   
     let activePlayer = players[0];
 
@@ -100,12 +101,14 @@ function GameController(p1 =  "Player One", p2 = "Player Two"){
         playboard.setMarker(getActivePlayer().token, r, c);
         if(checkWinner()){
           gameOver = true;
+          gameStatus = `${getActivePlayer().name} Wins!`;
           playboard.printBoard();
           console.log(`${getActivePlayer().name} is the winner`);
           return;
         }
         else if(checkTie()){
           gameOver = true;
+          gameStatus = "Match was a TIE";
           playboard.printBoard();
           console.log("Match was a TIE");
           return;
@@ -114,9 +117,53 @@ function GameController(p1 =  "Player One", p2 = "Player Two"){
         switchPlayer();
         printTurn();
     };
+    const isGameOver= () => gameOver;
+    const getGameStatus = () => gameStatus;
     
     printTurn();
 
-    return {playTurn, getActivePlayer};
+    return {playTurn, getActivePlayer, getBoard:playboard.getBoard, isGameOver, getGameStatus};
 
 };
+
+function ScreenController(){
+    const game = GameController();
+
+    const boardDiv = document.querySelector(".board");
+    const turnDiv = document.querySelector(".turn");
+
+    const updateScreen = () =>{
+        boardDiv.textContent = "";
+
+        const board = game.getBoard();
+        const activePlayer = game.getActivePlayer();
+
+        turnDiv.textContent = game.isGameOver()? game.getGameStatus():`${activePlayer.name}'s turn`;
+
+        board.forEach((row, rowind) => {
+            row.forEach((cell, colind) =>{
+                const cellbtn = document.createElement("button");
+                cellbtn.classList.add("cell");
+
+                cellbtn.dataset.column = colind;
+                cellbtn.dataset.row = rowind;
+                cellbtn.textContent = cell.getValue()==='0'?'':cell.getValue();
+                boardDiv.appendChild(cellbtn);
+            })
+            
+        });
+    };
+    function boarClickHandler(e){
+        const col = e.target.dataset.column;
+        const row = e.target.dataset.row;
+        if(col === undefined || row===undefined) return;
+
+        game.playTurn(Number(row), Number(col));
+        updateScreen();
+    }
+    boardDiv.addEventListener("click", boarClickHandler);
+
+    updateScreen();
+}
+
+ScreenController();
